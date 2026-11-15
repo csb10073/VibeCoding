@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { readDb, won } from "@/lib/db";
 import { requireUser } from "@/lib/auth";
 
-export const metadata = { title: "주문 완료 — ATELIER", robots: { index: false, follow: false } };
+export const metadata = { title: "주문 완료 — ATELIER", description: "ATELIER 배송 정보를 입력하고 안전하게 결제합니다.", robots: { index: false, follow: false } };
 
 export default async function Done({ params }) {
   const { id } = await params;

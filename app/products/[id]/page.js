@@ -11,7 +11,7 @@ export async function generateMetadata({ params }) {
   const p = (await readDb()).products.find((x) => x.id === id);
   if (!p) return { title: "상품 없음", robots: { index: false } };
   const description = `${p.name} · ${p.category} · ${won(p.price)}. ${p.desc} 색상 ${p.colors.map((c) => c.name).join(", ")}, 사이즈 ${p.sizes.join("/")}.`;
-  const images = p.image ? [{ url: p.image, alt: p.name }] : undefined;
+  const images = [{ url: p.image || "/opengraph-image", alt: p.name }];
   return {
     title: `${p.name} — ATELIER`,
     description,

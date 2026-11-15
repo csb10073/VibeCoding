@@ -3,7 +3,7 @@ import { requireAdmin } from "@/lib/auth";
 import { setOrderStatus, adminCancelOrder } from "@/lib/actions";
 import { AdminNav } from "../page";
 
-export const metadata = { title: "관리자 · 주문 — ATELIER", robots: { index: false, follow: false } };
+export const metadata = { title: "관리자 · 주문 — ATELIER", description: "ATELIER 관리자 페이지입니다.", robots: { index: false, follow: false } };
 
 function Btn({ id, status, label }) {
   return (

@@ -14,6 +14,12 @@ export async function generateMetadata({ searchParams }) {
     description: category
       ? `ATELIER ${category} 상품 모아보기. 미니멀 데일리 웨어, 5만 원 이상 무료배송.`
       : "ATELIER 전체 상품. 아우터·상의·하의·잡화 미니멀 데일리 웨어, 5만 원 이상 무료배송.",
+    openGraph: {
+      type: "website", url: category ? `/products?category=${encodeURIComponent(category)}` : "/products",
+      title: `${category || "전체 상품"} — ATELIER`,
+      description: "ATELIER 미니멀 데일리 웨어, 5만 원 이상 무료배송.",
+      images: [{ url: "/opengraph-image", alt: "ATELIER" }],
+    },
     alternates: { canonical: category ? `/products?category=${encodeURIComponent(category)}` : "/products" },
     ...(filtered && { robots: { index: false, follow: true } }),
   };

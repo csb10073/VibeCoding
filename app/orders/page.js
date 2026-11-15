@@ -3,7 +3,7 @@ import { readDb, won } from "@/lib/db";
 import { requireUser } from "@/lib/auth";
 import { cancelMyOrder } from "@/lib/actions";
 
-export const metadata = { title: "마이페이지 — ATELIER", robots: { index: false, follow: false } };
+export const metadata = { title: "마이페이지 — ATELIER", description: "ATELIER 주문 내역과 배송 상태를 확인합니다.", robots: { index: false, follow: false } };
 
 export default async function Orders() {
   const user = await requireUser("/orders");

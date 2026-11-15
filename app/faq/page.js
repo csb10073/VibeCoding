@@ -29,6 +29,11 @@ export const metadata = {
   title: "자주 묻는 질문 — ATELIER",
   description: "ATELIER 배송비, 결제, 주문 취소, 사이즈·재고에 대한 자주 묻는 질문과 답변입니다.",
   alternates: { canonical: "/faq" },
+  openGraph: {
+    type: "website", url: "/faq", title: "자주 묻는 질문 — ATELIER",
+    description: "ATELIER 배송비, 결제, 주문 취소, 사이즈·재고에 대한 자주 묻는 질문과 답변입니다.",
+    images: [{ url: "/opengraph-image", alt: "ATELIER" }],
+  },
 };
 
 export default function Faq() {

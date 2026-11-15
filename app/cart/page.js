@@ -4,7 +4,7 @@ import { requireUser } from "@/lib/auth";
 import { updateCartQty, removeFromCart } from "@/lib/actions";
 import { ProductImage } from "../components";
 
-export const metadata = { title: "장바구니 — ATELIER", robots: { index: false, follow: false } };
+export const metadata = { title: "장바구니 — ATELIER", description: "ATELIER 장바구니에 담은 상품을 확인하고 주문을 진행합니다.", robots: { index: false, follow: false } };
 
 export default async function Cart() {
   const user = await requireUser("/cart");

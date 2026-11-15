@@ -3,7 +3,7 @@ import { readDb } from "@/lib/db";
 import { requireAdmin } from "@/lib/auth";
 import { ProductForm } from "../../forms";
 
-export const metadata = { title: "상품 수정 — ATELIER", robots: { index: false, follow: false } };
+export const metadata = { title: "상품 수정 — ATELIER", description: "ATELIER 관리자 페이지입니다.", robots: { index: false, follow: false } };
 
 export default async function EditProduct({ params }) {
   await requireAdmin();
