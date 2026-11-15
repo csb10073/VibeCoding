@@ -7,7 +7,7 @@ export const metadata = { title: "마이페이지 — ATELIER" };
 
 export default async function Orders() {
   const user = await requireUser("/orders");
-  const orders = readDb().orders.filter((o) => o.userId === user.id).reverse();
+  const orders = (await readDb()).orders.filter((o) => o.userId === user.id).reverse();
   return (
     <>
       <h1 className="page-title">마이페이지 · 주문 내역</h1>

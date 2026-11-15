@@ -8,7 +8,7 @@ export const metadata = { title: "장바구니 — ATELIER" };
 
 export default async function Cart() {
   const user = await requireUser("/cart");
-  const db = readDb();
+  const db = await readDb();
   const lines = (db.carts[user.id] || [])
     .map((l, idx) => {
       const p = db.products.find((x) => x.id === l.productId);

@@ -2,8 +2,8 @@ import Link from "next/link";
 import { readDb } from "@/lib/db";
 import { ProductCard } from "./components";
 
-export default function Home() {
-  const { products } = readDb();
+export default async function Home() {
+  const { products } = await readDb();
   const featured = products.filter((p) => p.featured).slice(0, 4);
   const latest = [...products].sort((a, b) => b.createdAt.localeCompare(a.createdAt)).slice(0, 8);
   return (

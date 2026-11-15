@@ -7,13 +7,13 @@ import OptionForm from "./OptionForm";
 
 export async function generateMetadata({ params }) {
   const { id } = await params;
-  const p = readDb().products.find((x) => x.id === id);
+  const p = (await readDb()).products.find((x) => x.id === id);
   return { title: p ? `${p.name} — ATELIER` : "상품 없음" };
 }
 
 export default async function ProductPage({ params, searchParams }) {
   const [{ id }, sp, user] = await Promise.all([params, searchParams, getUser()]);
-  const product = readDb().products.find((p) => p.id === id);
+  const product = (await readDb()).products.find((p) => p.id === id);
   if (!product) notFound();
   const sold = totalStock(product) === 0;
   return (

@@ -9,7 +9,7 @@ export default async function Pay({ params, searchParams }) {
   const { id } = await params;
   const { error, message } = await searchParams; // error: 서버 승인 실패 / message: 토스 failUrl 파라미터
   const user = await requireUser("/orders");
-  const order = readDb().orders.find((o) => o.id === id && o.userId === user.id);
+  const order = (await readDb()).orders.find((o) => o.id === id && o.userId === user.id);
   if (!order) notFound();
   if (order.status !== "결제대기") redirect(`/checkout/${id}/done`);
   return (

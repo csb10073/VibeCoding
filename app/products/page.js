@@ -12,7 +12,7 @@ export default async function Products({ searchParams }) {
   const category = CATS.includes(sp.category) ? sp.category : "";
   const q = (sp.q || "").toString().trim();
   const sort = SORTS[sp.sort] ? sp.sort : "new";
-  let list = readDb().products.filter(
+  let list = (await readDb()).products.filter(
     (p) => (!category || p.category === category) && (!q || p.name.includes(q))
   );
   list.sort((a, b) =>

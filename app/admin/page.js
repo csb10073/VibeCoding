@@ -17,7 +17,7 @@ export function AdminNav() {
 
 export default async function Admin() {
   await requireAdmin();
-  const { products } = readDb();
+  const { products } = await readDb();
   return (
     <>
       <h1 className="page-title">관리자 · 상품</h1>

@@ -8,7 +8,7 @@ export const metadata = { title: "주문 완료 — ATELIER" };
 export default async function Done({ params }) {
   const { id } = await params;
   const user = await requireUser("/orders");
-  const o = readDb().orders.find((x) => x.id === id && x.userId === user.id);
+  const o = (await readDb()).orders.find((x) => x.id === id && x.userId === user.id);
   if (!o) notFound();
   return (
     <div className="narrow center">

@@ -11,7 +11,7 @@ export const metadata = {
 
 export default async function RootLayout({ children }) {
   const user = await getUser();
-  const cartCount = user ? (readDb().carts[user.id] || []).reduce((a, l) => a + l.qty, 0) : 0;
+  const cartCount = user ? ((await readDb()).carts[user.id] || []).reduce((a, l) => a + l.qty, 0) : 0;
   return (
     <html lang="ko">
       <body>

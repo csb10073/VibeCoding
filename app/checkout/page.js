@@ -7,7 +7,7 @@ export const metadata = { title: "주문하기 — ATELIER" };
 
 export default async function Checkout() {
   const user = await requireUser("/checkout");
-  const db = readDb();
+  const db = await readDb();
   const cart = db.carts[user.id] || [];
   if (!cart.length) redirect("/cart");
   const rows = cart.map((l) => ({ ...l, p: db.products.find((p) => p.id === l.productId) })).filter((l) => l.p);

@@ -16,7 +16,7 @@ function Btn({ id, status, label }) {
 
 export default async function AdminOrders() {
   await requireAdmin();
-  const db = readDb();
+  const db = await readDb();
   const orders = [...db.orders].reverse();
   return (
     <>

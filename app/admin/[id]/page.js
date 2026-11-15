@@ -8,7 +8,7 @@ export const metadata = { title: "상품 수정 — ATELIER" };
 export default async function EditProduct({ params }) {
   await requireAdmin();
   const { id } = await params;
-  const p = readDb().products.find((x) => x.id === id);
+  const p = (await readDb()).products.find((x) => x.id === id);
   if (!p) notFound();
   return (
     <>

@@ -15,7 +15,7 @@ export async function GET(request, { params }) {
   const to = (path) => NextResponse.redirect(new URL(path, request.url));
   const fail = (msg) => to(`/checkout/${id}?error=${encodeURIComponent(msg)}`);
 
-  const db = readDb();
+  const db = await readDb();
   const order = db.orders.find((o) => o.id === id && o.userId === user.id);
   if (!order) return to("/orders");
   if (order.status !== "결제대기") return to(`/checkout/${id}/done`);
@@ -44,7 +44,7 @@ export async function GET(request, { params }) {
   }
 
   // 승인 직후 최신 상태로 다시 확인(중복 요청 방지) 후 반영
-  const fresh = readDb();
+  const fresh = await readDb();
   const o = fresh.orders.find((x) => x.id === id);
   if (o.status === "결제대기") {
     for (const i of o.items) fresh.products.find((x) => x.id === i.productId).stock[`${i.color}|${i.size}`] -= i.qty;
@@ -52,7 +52,7 @@ export async function GET(request, { params }) {
     o.paidAt = new Date().toISOString();
     o.payment = { paymentKey, method: payment.method, approvedAt: payment.approvedAt };
     fresh.carts[user.id] = [];
-    writeDb(fresh);
+    await writeDb(fresh);
     revalidatePath("/", "layout");
   }
   return to(`/checkout/${id}/done`);
