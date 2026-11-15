@@ -3,7 +3,7 @@ import { readDb, won, totalStock } from "@/lib/db";
 import { requireAdmin } from "@/lib/auth";
 import { soldOutProduct } from "@/lib/actions";
 
-export const metadata = { title: "관리자 · 상품 — ATELIER" };
+export const metadata = { title: "관리자 · 상품 — ATELIER", robots: { index: false, follow: false } };
 
 export function AdminNav() {
   return (

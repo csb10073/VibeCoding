@@ -3,7 +3,7 @@ import { readDb, won, shippingFor } from "@/lib/db";
 import { requireUser } from "@/lib/auth";
 import { ShippingForm } from "../forms";
 
-export const metadata = { title: "주문하기 — ATELIER" };
+export const metadata = { title: "주문하기 — ATELIER", robots: { index: false, follow: false } };
 
 export default async function Checkout() {
   const user = await requireUser("/checkout");

@@ -5,7 +5,19 @@ import { ProductCard } from "../components";
 const CATS = ["아우터", "상의", "하의", "잡화"];
 const SORTS = { new: "신상품순", low: "낮은 가격순", high: "높은 가격순" };
 
-export const metadata = { title: "전체 상품 — ATELIER" };
+export async function generateMetadata({ searchParams }) {
+  const sp = await searchParams;
+  const category = CATS.includes(sp.category) ? sp.category : "";
+  const filtered = !!(sp.q || sp.sort); // 검색·정렬 변형 URL은 중복 콘텐츠이므로 색인 제외, canonical 은 카테고리 기준
+  return {
+    title: `${category || "전체 상품"} — ATELIER`,
+    description: category
+      ? `ATELIER ${category} 상품 모아보기. 미니멀 데일리 웨어, 5만 원 이상 무료배송.`
+      : "ATELIER 전체 상품. 아우터·상의·하의·잡화 미니멀 데일리 웨어, 5만 원 이상 무료배송.",
+    alternates: { canonical: category ? `/products?category=${encodeURIComponent(category)}` : "/products" },
+    ...(filtered && { robots: { index: false, follow: true } }),
+  };
+}
 
 export default async function Products({ searchParams }) {
   const sp = await searchParams;

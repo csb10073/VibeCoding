@@ -4,11 +4,21 @@ import { readDb, won, totalStock, FREE_SHIPPING_FROM } from "@/lib/db";
 import { getUser } from "@/lib/auth";
 import { ProductImage } from "../../components";
 import OptionForm from "./OptionForm";
+import { SITE_NAME, abs, jsonLd } from "@/lib/site";
 
 export async function generateMetadata({ params }) {
   const { id } = await params;
   const p = (await readDb()).products.find((x) => x.id === id);
-  return { title: p ? `${p.name} — ATELIER` : "상품 없음" };
+  if (!p) return { title: "상품 없음", robots: { index: false } };
+  const description = `${p.name} · ${p.category} · ${won(p.price)}. ${p.desc} 색상 ${p.colors.map((c) => c.name).join(", ")}, 사이즈 ${p.sizes.join("/")}.`;
+  const images = p.image ? [{ url: p.image, alt: p.name }] : undefined;
+  return {
+    title: `${p.name} — ATELIER`,
+    description,
+    alternates: { canonical: `/products/${p.id}` },
+    openGraph: { type: "website", title: p.name, description, url: `/products/${p.id}`, images },
+    twitter: { card: "summary_large_image", title: p.name, description, images: images?.map((i) => i.url) },
+  };
 }
 
 export default async function ProductPage({ params, searchParams }) {
@@ -16,8 +26,33 @@ export default async function ProductPage({ params, searchParams }) {
   const product = (await readDb()).products.find((p) => p.id === id);
   if (!product) notFound();
   const sold = totalStock(product) === 0;
+  const ld = [
+    {
+      "@context": "https://schema.org", "@type": "Product",
+      name: product.name, description: product.desc, sku: product.id,
+      category: product.category, brand: { "@type": "Brand", name: SITE_NAME },
+      ...(product.image && { image: [abs(product.image)] }),
+      color: product.colors.map((c) => c.name).join(", "),
+      size: product.sizes.join(", "),
+      offers: {
+        "@type": "Offer", url: abs(`/products/${product.id}`),
+        priceCurrency: "KRW", price: product.price,
+        availability: sold ? "https://schema.org/OutOfStock" : "https://schema.org/InStock",
+        itemCondition: "https://schema.org/NewCondition",
+      },
+    },
+    {
+      "@context": "https://schema.org", "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "홈", item: abs("/") },
+        { "@type": "ListItem", position: 2, name: product.category, item: abs(`/products?category=${encodeURIComponent(product.category)}`) },
+        { "@type": "ListItem", position: 3, name: product.name, item: abs(`/products/${product.id}`) },
+      ],
+    },
+  ];
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(ld) }} />
       <p className="crumb"><Link href="/products">전체</Link> / <Link href={`/products?category=${product.category}`}>{product.category}</Link></p>
       <div className="detail">
         <div className="detail-img"><ProductImage product={product} size={640} /></div>

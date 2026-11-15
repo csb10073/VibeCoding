@@ -1,6 +1,6 @@
 import { SignupForm } from "../forms";
 
-export const metadata = { title: "회원가입 — ATELIER" };
+export const metadata = { title: "회원가입 — ATELIER", robots: { index: false, follow: false } };
 
 export default async function Signup({ searchParams }) {
   const sp = await searchParams;

@@ -3,7 +3,7 @@ import { readDb, won } from "@/lib/db";
 import { requireUser } from "@/lib/auth";
 import { PayForm } from "../../forms";
 
-export const metadata = { title: "결제 — ATELIER" };
+export const metadata = { title: "결제 — ATELIER", robots: { index: false, follow: false } };
 
 export default async function Pay({ params, searchParams }) {
   const { id } = await params;

@@ -1,6 +1,6 @@
 import { LoginForm } from "../forms";
 
-export const metadata = { title: "로그인 — ATELIER" };
+export const metadata = { title: "로그인 — ATELIER", robots: { index: false, follow: false } };
 
 export default async function Login({ searchParams }) {
   const sp = await searchParams;
