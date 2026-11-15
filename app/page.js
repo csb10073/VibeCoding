@@ -1,69 +1,33 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+import Link from "next/link";
+import { readDb } from "@/lib/db";
+import { ProductCard } from "./components";
 
 export default function Home() {
+  const { products } = readDb();
+  const featured = products.filter((p) => p.featured).slice(0, 4);
+  const latest = [...products].sort((a, b) => b.createdAt.localeCompare(a.createdAt)).slice(0, 8);
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className={styles.intro}>
-          <h1>
-            To get started, edit the{" "}
-            <code className={styles.code}>page.js</code> file.
-          </h1>
-          <p>
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <>
+      <section className="hero">
+        <div>
+          <p className="eyebrow">2026 WINTER COLLECTION</p>
+          <h1>꾸안꾸, 매일 입는<br />미니멀 웨어</h1>
+          <p className="muted">군더더기 없는 실루엣과 좋은 소재로 만든 데일리 아이템.</p>
+          <Link href="/products" className="btn">전체 상품 보기</Link>
         </div>
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className={styles.secondary}
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+      </section>
+
+      <section className="cats">
+        {["아우터", "상의", "하의", "잡화"].map((c) => (
+          <Link key={c} href={`/products?category=${c}`} className="cat">{c}</Link>
+        ))}
+      </section>
+
+      <h2 className="section-title">추천 상품</h2>
+      <div className="grid">{featured.map((p) => <ProductCard key={p.id} product={p} />)}</div>
+
+      <h2 className="section-title">신상품</h2>
+      <div className="grid">{latest.map((p) => <ProductCard key={p.id} product={p} />)}</div>
+    </>
   );
 }
